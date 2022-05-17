@@ -20,7 +20,7 @@ oc.setDyn(dyn)
 path_cost = beta * env.path_cost
 oc.setPathCost(path_cost)
 oc.setFinalCost(env.final_cost)
-oc.setIntegrator(n_grid=10)
+oc.setIntegrator(n_grid=15)
 
 print(oc.auxvar)
 
@@ -57,11 +57,11 @@ true_time_grid, true_opt_sol = oc.cocSolver(ini_state, T, true_parameter)
 # env.play_animation(l1=1, l2=1, dt=true_time_grid[1] - true_time_grid[0], state_traj=true_opt_sol(true_time_grid)[:, 0:oc.n_state])
 
 
-# time_tau = true_time_grid[[6, ]]
+time_tau = true_time_grid[[6, ]]
 # time_tau = true_time_grid[[6, 9]]
 # time_tau = true_time_grid[[ 3, 6,  9]]
-# time_tau = true_time_grid[[1, 3, 6,  9]]
-time_tau = true_time_grid[[1, 2, 3, 4, 5, 6, 8, 9]]
+# time_tau = true_time_grid[[1, 3, 6, 9]]
+# time_tau = true_time_grid[[1, 2, 3, 4, 5, 6, 8, 9]]
 
 waypoints = np.zeros((time_tau.size, interface_pos_fn.numel_out()))
 for k, t in enumerate(time_tau):
@@ -74,10 +74,10 @@ lr = 2e-1  # learning rate
 
 max_trial = 10
 
-for trial_num in range(max_trial):
+for trial_num in range(0, max_trial):
 
     # initial_parameter = np.array([1, 2.5, 3.5, 2.5, 3.5])  # initial parameter
-    initial_parameter = np.random.uniform(1, 4, size=(oc.n_auxvar,))
+    initial_parameter = np.random.uniform(2, 3, size=(oc.n_auxvar,))
     loss_trace, parameter_trace = [], []
     current_parameter = initial_parameter
     parameter_trace += [current_parameter.tolist()]
@@ -94,7 +94,8 @@ for trial_num in range(max_trial):
 
         loss_trace += [loss]
         parameter_trace += [current_parameter.tolist()]
-        print('trial:', trial_num, 'iter:', j, 'loss:', loss_trace[-1].tolist(), 'error:', parameter_error)
+        print('num_waypoints:', time_tau.size, 'trial:', trial_num, 'iter:', j, 'loss:', loss_trace[-1].tolist(),
+              'error:', parameter_error)
 
     # save
     if True:
@@ -110,5 +111,4 @@ for trial_num in range(max_trial):
                      'n_control': oc.n_control,
                      'T': T,
                      'lr': lr}
-        np.save('./results/true_trial_' + str(trial_num) + 'num_waypoints_'
-                + str(time_tau.size) + '.npy', save_data)
+        np.save('./results/num_waypoints_' + str(time_tau.size) + '_trial_' + str(trial_num) + '.npy', save_data)
