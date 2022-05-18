@@ -110,7 +110,7 @@ for j in range(int(150)):
     #
 
 
-# save the results
+# save the results_1
 # Below is to obtain the final uav trajectory based on the learned objective function
 _, opt_sol = oc.cocSolver(ini_state, T, current_parameter)
 time_steps = np.linspace(0, T, num=100)  # generate the time inquiry grid with N is the point number

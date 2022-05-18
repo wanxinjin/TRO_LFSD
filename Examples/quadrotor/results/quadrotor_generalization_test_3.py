@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import UnivariateSpline
 
 
-# plot the generalization test results
+# plot the generalization test results_1
 if True:
 
-    # load the learned results.
+    # load the learned results_1.
 
     load = np.load('./quadrotor_case4.npy', allow_pickle=True).item()
     time_tau = load['time_tau']

@@ -18,7 +18,7 @@ params = {'axes.labelsize': 20,
           'legend.fontsize': 16}
 plt.rcParams.update(params)
 
-# plot the results plain ipopt
+# plot the results_1 plain ipopt
 if True:
     load1 = np.load('./compare_plain_ipopt_1.npy', allow_pickle=True).item()
     loss_trace1 = load1['loss_trace']

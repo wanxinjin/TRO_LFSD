@@ -2,7 +2,7 @@ from CPDP import CPDP
 from JinEnv import JinEnv
 from casadi import *
 
-# load the learned results.
+# load the learned results_1.
 load = np.load('../quadrotor_case4.npy', allow_pickle=True).item()
 time_tau = load['time_tau']
 waypoints = load['waypoints']

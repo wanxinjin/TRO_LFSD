@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 
-# plot the generalization test results
+# plot the generalization test results_1
 if True:
 
     # Plot the learned trajectory

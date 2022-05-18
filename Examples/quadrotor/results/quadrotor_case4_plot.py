@@ -4,7 +4,7 @@ from casadi import *
 
 import matplotlib.pyplot as plt
 
-# plot the learning results
+# plot the learning results_1
 if True:
     params = {'axes.labelsize': 25,
               'axes.titlesize': 25,

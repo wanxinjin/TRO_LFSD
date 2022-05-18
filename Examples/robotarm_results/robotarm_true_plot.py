@@ -70,7 +70,7 @@ init_parameter8 = load8['initial_parameter']
 parameter_error8 = np.linalg.norm(parameter_trace8 - true_parameter8, axis=1) ** 2
 print(parameter_error8[0], parameter_error8[50], parameter_error8[100], parameter_error8[500], parameter_error8[999])
 
-# plot different learning results for different number of sparse demonstrations
+# plot different learning results_1 for different number of sparse demonstrations
 if True:
     fig = plt.figure(0, figsize=(10, 4))
     ax = fig.subplots(1, 2)

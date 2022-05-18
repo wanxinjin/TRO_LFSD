@@ -57,9 +57,9 @@ true_time_grid, true_opt_sol = oc.cocSolver(ini_state, T, true_parameter)
 # env.play_animation(l1=1, l2=1, dt=true_time_grid[1] - true_time_grid[0], state_traj=true_opt_sol(true_time_grid)[:, 0:oc.n_state])
 
 
-time_tau = true_time_grid[[6, ]]
+# time_tau = true_time_grid[[6, ]]
 # time_tau = true_time_grid[[6, 9]]
-# time_tau = true_time_grid[[ 3, 6,  9]]
+time_tau = true_time_grid[[ 3, 6,  9]]
 # time_tau = true_time_grid[[1, 3, 6, 9]]
 # time_tau = true_time_grid[[1, 2, 3, 4, 5, 6, 8, 9]]
 
@@ -111,4 +111,4 @@ for trial_num in range(0, max_trial):
                      'n_control': oc.n_control,
                      'T': T,
                      'lr': lr}
-        np.save('./results/num_waypoints_' + str(time_tau.size) + '_trial_' + str(trial_num) + '.npy', save_data)
+        np.save('./results_data/results_1/num_waypoints_' + str(time_tau.size) + '_trial_' + str(trial_num) + '.npy', save_data)
