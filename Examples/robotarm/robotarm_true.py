@@ -59,9 +59,9 @@ true_time_grid, true_opt_sol = oc.cocSolver(ini_state, T, true_parameter)
 
 # time_tau = true_time_grid[[6, ]]
 # time_tau = true_time_grid[[6, 9]]
-time_tau = true_time_grid[[ 3, 6,  9]]
+# time_tau = true_time_grid[[ 3, 6,  9]]
 # time_tau = true_time_grid[[1, 3, 6, 9]]
-# time_tau = true_time_grid[[1, 2, 3, 4, 5, 6, 8, 9]]
+time_tau = true_time_grid[[1, 2, 3, 4, 5, 6, 8, 9]]
 
 waypoints = np.zeros((time_tau.size, interface_pos_fn.numel_out()))
 for k, t in enumerate(time_tau):
