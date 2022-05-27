@@ -106,4 +106,4 @@ if True:
                  'n_control': oc.n_control,
                  'T': T,
                  'lr': lr}
-    np.save('../robotarm_results/compare_bilevel_3.npy', save_data)
+    np.save('results_data/plain_opt/compare_bilevel_3.npy', save_data)

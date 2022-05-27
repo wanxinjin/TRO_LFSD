@@ -45,7 +45,7 @@ ini_w = [0.0, 0.0, 0.0]
 ini_state = ini_r_I + ini_v_I + ini_q + ini_w
 T = 1
 
-# save the results_1
+# save the true
 # Below is to obtain the final uav trajectory based on the learned objective function
 _, opt_sol = oc.cocSolver(ini_state, T, parameter_trace[-1])
 time_steps = np.linspace(0, T, num=100)  # generate the time inquiry grid with N is the point number

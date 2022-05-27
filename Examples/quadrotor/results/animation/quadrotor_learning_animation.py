@@ -3,7 +3,7 @@ from JinEnv import JinEnv
 from casadi import *
 
 # Plot the learned trajectory
-load = np.load('../quadrotor_case4.npy', allow_pickle=True).item()
+load = np.load('../3d/quadrotor_case4.npy', allow_pickle=True).item()
 time_tau = load['time_tau']
 waypoints = load['waypoints']
 parameter_trace = np.array(load['parameter_trace'])

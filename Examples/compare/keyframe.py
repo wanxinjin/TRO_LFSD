@@ -24,7 +24,7 @@ oc.setDyn(dyn)
 path_cost = beta * env.path_cost
 oc.setPathCost(path_cost)
 oc.setFinalCost(env.final_cost)
-oc.setIntegrator(n_grid=10)
+oc.setIntegrator(n_grid=15)
 
 print(oc.auxvar)
 
@@ -60,7 +60,8 @@ true_parameter = [5, 3, 3, 3, 3]
 true_time_grid, true_opt_sol = oc.cocSolver(ini_state, T, true_parameter)
 # env.play_animation(l1=1, l2=1, dt=true_time_grid[1] - true_time_grid[0], state_traj=true_opt_sol(true_time_grid)[:, 0:oc.n_state])
 
-time_tau = true_time_grid[[1, 2, 3, 4, 5, 6, 8, 9, 10]]
+
+time_tau = true_time_grid[[1, 3, 4, 5, 7,  9, 12, 14]]
 waypoints = np.zeros((time_tau.size, interface_pos_fn.numel_out()))
 for k, t in enumerate(time_tau):
     waypoints[k, :] = interface_pos_fn(true_opt_sol(t)[0:oc.n_state]).full().flatten()
@@ -90,7 +91,7 @@ if True:
                  'n_state': oc.n_state,
                  'n_control': oc.n_control,
                  'T': T}
-    np.save('../robotarm_results/compare_keyframe.npy', save_data)
+    np.save('./results_data/keyframes/compare_keyframe.npy', save_data)
 
 
 

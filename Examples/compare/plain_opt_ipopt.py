@@ -131,4 +131,4 @@ if True:
                  'waypoints': waypoints,
                  'opt_sol': sol,
                  'time_grid': np.linspace(0, 1, horizon + 1)},
-    np.save('../robotarm_results/compare_plain_ipopt_3.npy', save_data)
+    np.save('./results_data/plain_opt/compare_plain_ipopt_3.npy', save_data)
