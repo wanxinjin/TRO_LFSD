@@ -120,7 +120,7 @@ ax[0, 1].fill_between(xvals, loss_mean - loss_std,
                       loss_mean + loss_std,
                       alpha=0.25, linewidth=0, color='tab:brown')
 ax[0, 1].set_ylabel(r'$L(\xi_\theta,\mathcal{D})$')
-# ax[0, 1].set_ylim([-0.5, 5])
+
 ax[0, 1].grid()
 
 # ax[1, 1].set_facecolor('#E6E6E6')
@@ -132,6 +132,7 @@ ax[1, 1].fill_between(xvals, param_error_mean - param_error_std,
 ax[1, 1].set_xlabel('Iteration')
 ax[1, 1].set_ylabel(r'$||\theta-\theta^{true}||^2$')
 ax[1, 1].grid()
+ax[1, 1].set_ylim([6.5, 9])
 print('final loss:', 'mean', loss_mean[-1], 'std', loss_std[-1])
 
 # --------------------------- plot the generalization

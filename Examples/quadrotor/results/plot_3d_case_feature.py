@@ -1,13 +1,14 @@
+from casadi import *
+
 from CPDP import CPDP
 from JinEnv import JinEnv
-from casadi import *
 
 # Plot the learned trajectory
 trials = [0, 1, 2, 3, 4]
 subcase1_loss_trace_list = []
 subcase1_learned_param_list = []
-time_tau=None
-waypoints=None
+time_tau = None
+waypoints = None
 for trial in trials:
     load = np.load('./case_feature/subcase1_trial_' + str(trial) + '.npy', allow_pickle=True).item()
     load_trace = np.array(load['loss_trace'])
@@ -17,8 +18,6 @@ for trial in trials:
     waypoints = load['waypoints']
 subcase1_learned_param_mean = np.mean(np.array(subcase1_learned_param_list), axis=0)
 subcase1_learned_param_std = np.std(np.array(subcase1_learned_param_list), axis=0)
-print('learned_param_mean:', subcase1_learned_param_mean)
-
 
 # ----------load environment---------------------------------------
 env = JinEnv.Quadrotor()
@@ -80,6 +79,24 @@ _, opt_sol = oc.cocSolver(ini_state, T, subcase1_learned_param_mean)
 time_grid = np.linspace(0, T, num=200)  # generate the time inquiry grid with N is the point number
 position = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol(time_grid)[:, 0:oc.n_state])
 
+if True:
+    # Plot the learned trajectory
+    trials = [0, 1, 2, 3, 4]
+    subcase2_loss_trace_list = []
+    subcase2_learned_param_list = []
+
+    for trial in trials:
+        load = np.load('./case_feature/subcase2_trial_' + str(trial) + '.npy', allow_pickle=True).item()
+        load_trace = np.array(load['loss_trace'])
+        subcase2_loss_trace_list.append(load_trace)
+        subcase2_learned_param_list.append(load['parameter_trace'][-1])
+    subcase2_learned_param_mean = np.mean(np.array(subcase2_learned_param_list), axis=0)
+    subcase2_learned_param_std = np.std(np.array(subcase2_learned_param_list), axis=0)
+
+    _, opt_sol2 = oc.cocSolver(ini_state, T, subcase2_learned_param_mean)
+    time_grid = np.linspace(0, T, num=200)  # generate the time inquiry grid with N is the point number
+    position2 = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol2(time_grid)[:, 0:oc.n_state])
+
 # plot
 import matplotlib.pyplot as plt
 
@@ -114,7 +131,8 @@ bar11 = ax.bar3d([0.5], [0], [3.5], dx=[0.5], dy=[4.5], dz=[0.5], color='#D95319
 bar12 = ax.bar3d([0.5], [0], [6.5], dx=[0.5], dy=[4.5], dz=[0.5], color='#D95319')
 bar13 = ax.bar3d([0.5], [4], [7.0], dx=[0.5], dy=[0.5], dz=[-3.5], color='#D95319')
 ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=10000, color='red', alpha=1, marker='^')
-ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='blue',linewidth=2)
+ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=2)
+ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-100, color='tab:orange', linewidth=2)
 
 time_step = [0, -1]
 for t in time_step:
@@ -161,7 +179,8 @@ ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=-1000
 # ax.plot(position[0:8, 0], position[0:8, 1], position[0:8, 2], zorder=-100, color='blue')
 # # ax.plot(position[7:, 0], position[7:, 1], position[7:, 2], zorder=100, color='blue')
 # ax.plot(position[7:, 0], position[7:, 1], position[7:, 2], zorder=100, color='blue')
-ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='blue',linewidth=2)
+ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=2)
+ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-100, color='tab:orange', linewidth=2)
 
 time_step = [0, -1]
 for t in time_step:
@@ -203,11 +222,12 @@ bar12 = ax.bar3d([0.5], [0], [6.5], dx=[0.5], dy=[4.5], dz=[0.5], color='#D95319
 bar13 = ax.bar3d([0.5], [4], [7.0], dx=[0.5], dy=[0.5], dz=[-3.5], color='#D95319')
 
 ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=0, color='red', alpha=1, marker='^')
-seg1,seg2,seg3,seg4=32,31,137,146
-ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='blue',linewidth=3)
-ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=10, color='blue',linewidth=3)
-ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='blue',linewidth=3)
-# ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=100, color='blue')
+seg1, seg2, seg3, seg4 = 40, 44, 137, 146
+ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='tab:green', linewidth=3)
+ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=100, color='tab:green', linewidth=3)
+ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='tab:green', linewidth=3, label='unconstrained weights')
+ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-100, color='tab:orange', linewidth=3, label='constrained weights')
+ax.legend(loc='best', bbox_to_anchor=(0.2, 0.4, 0.5, 0.5))
 
 time_step = [0, -1]
 for t in time_step:
@@ -228,5 +248,3 @@ for t in time_step:
 ax.set_position([-0.04, 0.01, 0.72, 1.1])
 
 plt.show()
-
-

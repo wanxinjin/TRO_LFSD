@@ -45,8 +45,8 @@ if True:
     oc.setIntegrator(n_grid=30)
     # --------------------------- set initial condition and horizon ------------------------------
     # set initial condition
-    ini_r_I = [6, -8, 2.]
-    ini_v_I = [10, 0, 0]
+    ini_r_I = [-3, 6,8.]
+    ini_v_I = [0, 0, 0]
     ini_q = JinEnv.toQuaternion(1, [-0.9, -0.1, -0.3])
     ini_w = [0.0, 0.0, 0.0]
     ini_state = ini_r_I + ini_v_I + ini_q + ini_w
@@ -167,7 +167,7 @@ if True:
     bar12 = ax.bar3d([0.5], [0], [6.5], dx=[0.5], dy=[4.5], dz=[0.5], color='#D95319')
     bar13 = ax.bar3d([0.5], [4], [7.0], dx=[0.5], dy=[0.5], dz=[-3.5], color='#D95319')
     ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=-10000, color='red', marker='^', alpha=1)
-    seg1,seg2,seg3,seg4=38,37,140,148
+    seg1,seg2,seg3,seg4=38,37,151,158
     ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='blue',linewidth=2,)
     ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=10, color='blue',linewidth=2,)
     ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='blue',linewidth=2,)
@@ -213,7 +213,7 @@ if True:
     bar13 = ax.bar3d([0.5], [4], [7.0], dx=[0.5], dy=[0.5], dz=[-3.5], color='#D95319')
 
     ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=0, color='red', alpha=1, marker='^')
-    seg1,seg2,seg3,seg4=38,37,139,146
+    seg1,seg2,seg3,seg4=38,37,142,149
     ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='blue',linewidth=3,)
     ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=10, color='blue',linewidth=3,)
     ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='blue',linewidth=3,)

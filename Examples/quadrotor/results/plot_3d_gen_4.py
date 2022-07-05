@@ -22,7 +22,6 @@ if True:
         waypoints = load['waypoints']
 
     learned_param_mean=np.mean(np.array(learned_param_list), axis=0)
-    print(learned_param_mean)
     learned_param_std=np.std(np.array(learned_param_list), axis=0)
 
 
@@ -48,7 +47,6 @@ if True:
     ini_r_I = [-8, -8, 2.]
     ini_v_I = [15, 5, -2]
     ini_q = JinEnv.toQuaternion(1, [-0.9, 0.4, 0.3])
-    print(ini_q)
     ini_w = [0.0, 0.0, 0.0]
     ini_state = ini_r_I + ini_v_I + ini_q + ini_w
     T = 1
@@ -59,7 +57,7 @@ if True:
 
     # compute the average nearest distance of the trajectory to the given waypoints
     nearest_distance = []
-    for waypoint in waypoints[0:-1]:
+    for waypoint in waypoints:
         distance = 10000
         # sear the nearest trajectory point
         for pos_t in position:
@@ -69,6 +67,24 @@ if True:
                 distance = dist_t
         nearest_distance += [distance.full().item()]
     print('average nearest_distance:',np.array(nearest_distance).mean())
+
+    gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+    nearest_distance_gatecenter = []
+    for point3d in gate_centers:
+        distance = 10000
+        # sear the nearest trajectory point
+        for pos_t in position:
+            xyz = pos_t[0:3]
+            dist_t = norm_2(point3d - xyz)
+            if dist_t < distance:
+                distance = dist_t
+        nearest_distance_gatecenter += [distance.full().item()]
+    print('average nearest_distance to center of gate:', np.array(nearest_distance_gatecenter).mean())
+
+
+
+
+
 
 
     # plot

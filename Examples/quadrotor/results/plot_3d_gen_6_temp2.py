@@ -89,36 +89,10 @@ oc.setIntegrator(n_grid=15)
 
 
 # --------------------------- set initial condition and horizon ------------------------------
-_, opt_sol = oc.cocSolver(ini_state, T, subcase1_learned_param_mean)
-time_grid = np.linspace(0, T, num=200)  # generate the time inquiry grid with N is the point number
-position = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol(time_grid)[:, 0:oc.n_state])
+# _, opt_sol = oc.cocSolver(ini_state, T, subcase1_learned_param_mean)
+# time_grid = np.linspace(0, T, num=200)  # generate the time inquiry grid with N is the point number
+# position = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol(time_grid)[:, 0:oc.n_state])
 
-
-# compute the average nearest distance of the trajectory to the given waypoints
-nearest_distance = []
-for waypoint in waypoints:
-    distance = 10000
-    # sear the nearest trajectory point
-    for pos_t in position:
-        xyz = pos_t[0:3]
-        dist_t = norm_2(waypoint - xyz)
-        if dist_t < distance:
-            distance = dist_t
-    nearest_distance += [distance.full().item()]
-print('average nearest_distance for feature cost:',np.array(nearest_distance).mean())
-
-
-nearest_distance_gatecenter = []
-for point3d in gate_centers:
-    distance = 10000
-    # sear the nearest trajectory point
-    for pos_t in position:
-        xyz = pos_t[0:3]
-        dist_t = norm_2(point3d - xyz)
-        if dist_t < distance:
-            distance = dist_t
-    nearest_distance_gatecenter += [distance.full().item()]
-print('average nearest_distance to center of gate for feature cost:', np.array(nearest_distance_gatecenter).mean())
 
 
 # comparison with the polynomial cost function
@@ -147,35 +121,13 @@ if True:
     oc2.setFinalCost(env.final_cost)
     oc2.setIntegrator(n_grid=30)
 
-    _, opt_sol2 = oc2.cocSolver(ini_state, T, learned_param_mean)
-    time_grid2 = np.linspace(0, T, num=200)  # generate the time inquiry grid with N is the point number
-    position2 = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol2(time_grid2)[:, 0:oc.n_state])
+    _, opt_sol = oc2.cocSolver(ini_state, T, learned_param_mean)
+    time_grid = np.linspace(0, T, num=200)  # generate the time inquiry grid with N is the point number
+    position = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol(time_grid)[:, 0:oc.n_state])
 
 
-    nearest_distance = []
-    for waypoint in waypoints:
-        distance = 10000
-        # sear the nearest trajectory point
-        for pos_t in position2:
-            xyz = pos_t[0:3]
-            dist_t = norm_2(waypoint - xyz)
-            if dist_t < distance:
-                distance = dist_t
-        nearest_distance += [distance.full().item()]
-    print('average nearest_distance for general poly cost:',np.array(nearest_distance).mean())
 
 
-    nearest_distance_gatecenter = []
-    for point3d in gate_centers:
-        distance = 10000
-        # sear the nearest trajectory point
-        for pos_t in position2:
-            xyz = pos_t[0:3]
-            dist_t = norm_2(point3d - xyz)
-            if dist_t < distance:
-                distance = dist_t
-        nearest_distance_gatecenter += [distance.full().item()]
-    print('average nearest_distance to center of gate for general poly cost:', np.array(nearest_distance_gatecenter).mean())
 
 
 
@@ -220,7 +172,7 @@ bar12 = ax.bar3d([gate2_bar1[0]], [gate2_bar1[1]], [6.5], dx=[0.5], dy=gate2_bar
                  color='#D95319')
 bar13 = ax.bar3d([gate2_bar2[0]], [gate2_bar2[1]], [3.5], dx=[0.5], dy=[0.5], dz=[3.5], color='#D95319')
 ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=10000, color='red', alpha=1, marker='^')
-ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=2, label='learned feature cost')
+ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='blue', linewidth=2, label='learned feature cost')
 # ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
 #         label='learned general cost')
 
@@ -275,7 +227,7 @@ ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=-1000
 # ax.plot(position[0:8, 0], position[0:8, 1], position[0:8, 2], zorder=-100, color='blue')
 # # ax.plot(position[7:, 0], position[7:, 1], position[7:, 2], zorder=100, color='blue')
 # ax.plot(position[7:, 0], position[7:, 1], position[7:, 2], zorder=100, color='blue')
-ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=2)
+ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='blue', linewidth=2)
 # ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
 #         label='constrained weights')
 
@@ -328,10 +280,10 @@ bar12 = ax.bar3d([gate2_bar1[0]], [gate2_bar1[1]], [6.5], dx=[0.5], dy=gate2_bar
 bar13 = ax.bar3d([gate2_bar2[0]], [gate2_bar2[1]], [3.5], dx=[0.5], dy=[0.5], dz=[3.5], color='#D95319')
 
 ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=0, color='red', alpha=1, marker='^')
-seg1, seg2, seg3, seg4 = 32, 31, 168, 172
-ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='tab:green', linewidth=3)
-ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=10, color='tab:green', linewidth=3)
-ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='tab:green', linewidth=3, label='Distance-to-obstacle cost')
+seg1, seg2, seg3, seg4 = 32, 31, 173, 172
+ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=-10, color='blue', linewidth=3)
+ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=-10, color='blue', linewidth=3)
+ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=-10, color='blue', linewidth=3, label='Distance-to-obstacle cost')
 # ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
 #         label='General polynomial cost')
 # ax.legend(loc='upper left', bbox_to_anchor=(0.1, 0.4, 0.5, 0.5))

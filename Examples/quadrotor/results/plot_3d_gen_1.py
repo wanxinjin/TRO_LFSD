@@ -1,24 +1,23 @@
+from casadi import *
+
 from CPDP import CPDP
 from JinEnv import JinEnv
-from casadi import *
-from scipy.interpolate import UnivariateSpline
 
 # Plot the learned trajectory
-trials = [0,1,2,4,6,7]
-loss_trace_list=[]
-learned_param_list=[]
-time_tau=None
-waypoints=None
+trials = [0, 1, 2, 4, 6, 7]
+loss_trace_list = []
+learned_param_list = []
+time_tau = None
+waypoints = None
 for trial in trials:
-    load = np.load('./case_5/quadrotor_trial_'+str(trial)+'_2.npy', allow_pickle=True).item()
+    load = np.load('./case_5/quadrotor_trial_' + str(trial) + '_2.npy', allow_pickle=True).item()
     loss_trace_list.append(load['loss_trace'])
     learned_param_list.append(load['parameter_trace'][-1])
     time_tau = load['time_tau']
     waypoints = load['waypoints']
 
-learned_param_mean=np.mean(np.array(learned_param_list), axis=0)
-print(learned_param_mean)
-learned_param_std=np.std(np.array(learned_param_list), axis=0)
+learned_param_mean = np.mean(np.array(learned_param_list), axis=0)
+learned_param_std = np.std(np.array(learned_param_list), axis=0)
 
 # ----------load environment---------------------------------------
 env = JinEnv.Quadrotor()
@@ -51,7 +50,7 @@ time_grid = np.linspace(0, T, num=200)  # generate the time inquiry grid with N 
 position = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol(time_grid)[:, 0:oc.n_state])
 
 # compute the average nearest distance of the trajectory to the given waypoints
-nearest_distance = []
+nearest_distance_keyframes = []
 for waypoint in waypoints:
     distance = 10000
     # sear the nearest trajectory point
@@ -60,8 +59,21 @@ for waypoint in waypoints:
         dist_t = norm_2(waypoint - xyz)
         if dist_t < distance:
             distance = dist_t
-    nearest_distance += [distance.full().item()]
-print('average nearest_distance:',np.array(nearest_distance).mean())
+    nearest_distance_keyframes += [distance.full().item()]
+print('average nearest_distance to keyframes:', np.array(nearest_distance_keyframes).mean())
+
+gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+nearest_distance_gatecenter = []
+for point3d in gate_centers:
+    distance = 10000
+    # sear the nearest trajectory point
+    for pos_t in position:
+        xyz = pos_t[0:3]
+        dist_t = norm_2(point3d - xyz)
+        if dist_t < distance:
+            distance = dist_t
+    nearest_distance_gatecenter += [distance.full().item()]
+print('average nearest_distance to center of gate:', np.array(nearest_distance_gatecenter).mean())
 
 # plot
 import matplotlib.pyplot as plt

@@ -220,9 +220,9 @@ bar12 = ax.bar3d([gate2_bar1[0]], [gate2_bar1[1]], [6.5], dx=[0.5], dy=gate2_bar
                  color='#D95319')
 bar13 = ax.bar3d([gate2_bar2[0]], [gate2_bar2[1]], [3.5], dx=[0.5], dy=[0.5], dz=[3.5], color='#D95319')
 ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=10000, color='red', alpha=1, marker='^')
-ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=3, label='learned feature cost')
-ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
-        label='learned general cost')
+ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=2, label='learned feature cost')
+# ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
+#         label='learned general cost')
 
 
 
@@ -275,9 +275,9 @@ ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=-1000
 # ax.plot(position[0:8, 0], position[0:8, 1], position[0:8, 2], zorder=-100, color='blue')
 # # ax.plot(position[7:, 0], position[7:, 1], position[7:, 2], zorder=100, color='blue')
 # ax.plot(position[7:, 0], position[7:, 1], position[7:, 2], zorder=100, color='blue')
-ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=3)
-ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
-        label='constrained weights')
+ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=-100, color='tab:green', linewidth=2)
+# ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
+#         label='constrained weights')
 
 
 time_step = [0, -1]
@@ -331,10 +331,10 @@ ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=0, co
 seg1, seg2, seg3, seg4 = 32, 31, 168, 172
 ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='tab:green', linewidth=3)
 ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=10, color='tab:green', linewidth=3)
-ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='tab:green', linewidth=4, label='Distance-to-obstacle cost')
-ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
-        label='General polynomial cost')
-ax.legend(loc='upper left', bbox_to_anchor=(0.1, 0.4, 0.5, 0.5))
+ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='tab:green', linewidth=3, label='Distance-to-obstacle cost')
+# ax.plot(position2[:, 0], position2[:, 1], position2[:, 2], zorder=-1000, color='blue', linewidth=2,
+#         label='General polynomial cost')
+# ax.legend(loc='upper left', bbox_to_anchor=(0.1, 0.4, 0.5, 0.5))
 
 time_step = [0, -1]
 for t in time_step:

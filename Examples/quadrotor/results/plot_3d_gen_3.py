@@ -25,7 +25,6 @@ if True:
         waypoints = load['waypoints']
 
     learned_param_mean=np.mean(np.array(learned_param_list), axis=0)
-    print(learned_param_mean)
     learned_param_std=np.std(np.array(learned_param_list), axis=0)
 
 
@@ -73,6 +72,21 @@ if True:
     print('average nearest_distance:',np.array(nearest_distance).mean())
 
 
+    gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+    nearest_distance_gatecenter = []
+    for point3d in gate_centers:
+        distance = 10000
+        # sear the nearest trajectory point
+        for pos_t in position:
+            xyz = pos_t[0:3]
+            dist_t = norm_2(point3d - xyz)
+            if dist_t < distance:
+                distance = dist_t
+        nearest_distance_gatecenter += [distance.full().item()]
+    print('average nearest_distance to center of gate:', np.array(nearest_distance_gatecenter).mean())
+
+
+
     # compare with policy-imitation
     if True:
         waypoints_rx = waypoints[:, 0]
@@ -115,7 +129,19 @@ if True:
             nearest_distance += [distance.full().item()]
         print('average_nearest_distance for policy imitation:', np.array(nearest_distance).mean())
 
-    # compte a
+
+        gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+        nearest_distance_gatecenter = []
+        for point3d in gate_centers:
+            distance = 10000
+            # sear the nearest trajectory point
+            for pos_t in imitation_position:
+                xyz = pos_t[0:3]
+                dist_t = norm_2(point3d - xyz)
+                if dist_t < distance:
+                    distance = dist_t
+            nearest_distance_gatecenter += [distance.full().item()]
+        print('average nearest_distance to center of gate for policy imitation:', np.array(nearest_distance_gatecenter).mean())
 
 
 

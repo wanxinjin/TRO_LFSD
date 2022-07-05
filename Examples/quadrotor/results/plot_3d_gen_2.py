@@ -24,7 +24,6 @@ if True:
         waypoints = load['waypoints']
 
     learned_param_mean=np.mean(np.array(learned_param_list), axis=0)
-    print(learned_param_mean)
     learned_param_std=np.std(np.array(learned_param_list), axis=0)
 
     # ----------load environment---------------------------------------
@@ -70,6 +69,23 @@ if True:
                 distance = dist_t
         nearest_distance += [distance.full().item()]
     print('average nearest_distance:',np.array(nearest_distance).mean())
+
+
+    gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+    nearest_distance_gatecenter = []
+    for point3d in gate_centers[1:]:
+        distance = 10000
+        # sear the nearest trajectory point
+        for pos_t in position:
+            xyz = pos_t[0:3]
+            dist_t = norm_2(point3d - xyz)
+            if dist_t < distance:
+                distance = dist_t
+        nearest_distance_gatecenter += [distance.full().item()]
+    print('average nearest_distance to center of gate:', np.array(nearest_distance_gatecenter).mean())
+
+
+
 
 
 
@@ -197,11 +213,11 @@ if True:
     bar13 = ax.bar3d([0.5], [4], [7.0], dx=[0.5], dy=[0.5], dz=[-3.5], color='#D95319')
 
     ax.scatter(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], s=56, zorder=0, color='red', alpha=1, marker='^')
-    seg1,seg2,seg3,seg4=38,37,136,142
+    seg1,seg2,seg3,seg4=38,37,139,146
     ax.plot(position[:seg1, 0], position[:seg1, 1], position[:seg1, 2], zorder=10, color='blue',linewidth=3,)
     ax.plot(position[seg2:seg3, 0], position[seg2:seg3, 1], position[seg2:seg3, 2], zorder=10, color='blue',linewidth=3,)
     ax.plot(position[seg4:, 0], position[seg4:, 1], position[seg4:, 2], zorder=10, color='blue',linewidth=3,)
-    # ax.plot(position[:, 0], position[:, 1], position[:, 2], zorder=100, color='blue')
+
 
     time_step = [0, -1]
     for t in time_step:

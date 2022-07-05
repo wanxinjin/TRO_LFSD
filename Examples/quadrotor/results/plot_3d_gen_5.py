@@ -77,7 +77,7 @@ if True:
     oc.setPathCost(path_cost)
     oc.setFinalCost(env.final_cost)
     oc.setIntegrator(n_grid=30)
-    print(oc.auxvar)
+
 
     # --------------------------- set initial condition and horizon ------------------------------
     # set initial condition
@@ -106,6 +106,24 @@ if True:
         nearest_distance += [distance.full().item()]
     print('average nearest_distance for green:',np.array(nearest_distance).mean())
 
+
+    gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+    nearest_distance_gatecenter = []
+    for point3d in gate_centers[1:]:
+        distance = 10000
+        # sear the nearest trajectory point
+        for pos_t in position:
+            xyz = pos_t[0:3]
+            dist_t = norm_2(point3d - xyz)
+            if dist_t < distance:
+                distance = dist_t
+        nearest_distance_gatecenter += [distance.full().item()]
+    print('average nearest_distance to center of gate for green:', np.array(nearest_distance_gatecenter).mean())
+
+
+
+
+
     _, opt_sol2 = oc.cocSolver(ini_state, T, subcase2_learned_param_mean)
     position2 = env.get_quadrotor_position(wing_len=1.8, state_traj=opt_sol2(time_grid)[:, 0:oc.n_state])
 
@@ -122,6 +140,19 @@ if True:
         nearest_distance += [distance.full().item()]
     print('average nearest_distance for orange:',np.array(nearest_distance).mean())
 
+
+    gate_centers = np.array([[-1, -5.75, 2.5], [0.5, 2, 5.]])
+    nearest_distance_gatecenter = []
+    for point3d in gate_centers[1:]:
+        distance = 10000
+        # sear the nearest trajectory point
+        for pos_t in position2:
+            xyz = pos_t[0:3]
+            dist_t = norm_2(point3d - xyz)
+            if dist_t < distance:
+                distance = dist_t
+        nearest_distance_gatecenter += [distance.full().item()]
+    print('average nearest_distance to center of gate for orange:', np.array(nearest_distance_gatecenter).mean())
 
 
 

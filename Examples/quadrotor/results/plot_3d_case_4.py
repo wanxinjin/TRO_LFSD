@@ -18,6 +18,7 @@ for trial in trials:
 # print(np.array(learned_param_list))
 learned_param_mean=np.mean(np.array(learned_param_list), axis=0)
 learned_param_std=np.std(np.array(learned_param_list), axis=0)
+print(learned_param_mean)
 
 
 # ----------load environment---------------------------------------
